@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Community Enhancer",
+  "version": "1.0",
+
+  "description": "Improve the user experience of community.nimbuscloud.at",
+
+  "content_scripts": [
+    {
+      "matches": ["*://community.nimbuscloud.at/*"],
+      "js": ["enhancer.js"]
+    }
+  ]
+}
+
