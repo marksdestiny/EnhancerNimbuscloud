@@ -52,7 +52,12 @@ function setup() {
     inputSearch.type = "text";
     inputSearch.placeholder = "Enter course name...";
     inputSearch.addEventListener("input", (evt) => { filter(); });
-    pName.appendChild(inputSearch);
+    pName.appendChild(inputSearch);    
+    var buttonClearText = document.createElement("input");
+    buttonClearText.type = "button";
+    buttonClearText.value = "Clear";
+    buttonClearText.addEventListener('click', (evt) => { clearSearchText() });
+    pName.appendChild(buttonClearText);
     filterContainer.appendChild(pName);
     
     
@@ -119,6 +124,12 @@ function setup() {
     
     var coursesContainer = document.querySelector("#checkin-plocation-accordion-wrapper");
     coursesContainer.parentElement.insertBefore(filterContainer, coursesContainer); 
+}
+
+function clearSearchText() {
+    var inputSearch = document.getElementById("search");
+    inputSearch.value = "";
+    filter();
 }
 
 function setCheckedOfAllDays(checked) {
