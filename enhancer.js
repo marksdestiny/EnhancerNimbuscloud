@@ -3,6 +3,24 @@ var checkIntervalId = setInterval(check, 1000);
 const days = ["MO", "DI", "MI", "DO", "FR", "SA", "SO"];
 const times = ["17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "21:00", "22:00"];
 
+/**
+ * Get the innter text of an element without the inner text of its child
+ * elements.
+ */
+function getTopInnerText(element) {
+    var child = element.firstChild;
+    var texts = [];
+
+    while (child) {
+        if (child.nodeType == 3) {
+            texts.push(child.data);
+        }
+        child = child.nextSibling;
+    }
+
+    return texts.join("");
+}
+
 function check() {
     // Check if we are on the right page
     var coursesContainer = document.querySelector("#checkin-plocation-accordion-wrapper");
@@ -145,7 +163,8 @@ function filter() {
     var courseContainers = document.querySelectorAll("#checkin-plocation-content-1 .pcheckin-course-item");
     for (const container of courseContainers) {
         if(searchTexts.length > 0) {            
-            var courseTitle = container.querySelector("div.p-1>h5").innerText.trim().toLowerCase();
+            var courseTitleElement = container.querySelector("div.p-1>h5");
+            var courseTitle = getTopInnerText(courseTitleElement).trim().toLowerCase();
             var courseTitleParts = courseTitle.split(" ");
             
             var isMatch = true;
