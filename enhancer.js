@@ -1,22 +1,24 @@
-// Indicate if the courses have been loaded
-var isLoaded = false;
-
 var checkIntervalId = setInterval(check, 1000);
 
 const days = ["MO", "DI", "MI", "DO", "FR", "SA", "SO"];
 const times = ["17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "21:00", "22:00"];
 
 function check() {
-    var container = document.querySelector("#checkin-plocation-accordion-wrapper");
-    if(container == null) {
+    // Check if we are on the right page
+    var coursesContainer = document.querySelector("#checkin-plocation-accordion-wrapper");
+    if(coursesContainer == null) {
         return;
     }
-    if(container.children.length == 0) {
+    if(coursesContainer.children.length == 0) {
         return;
     }
     
-    isLoaded = true;
-    clearInterval(checkIntervalId);
+    // Check if the filter has already been placed
+    var filterContainer = document.getElementById("enhancer-nimbuscloud");
+    if(filterContainer != null) {
+        return;
+    }
+
     setup();
 }
 
@@ -24,7 +26,8 @@ function setup() {
     console.log("Setup");
     
     var filterContainer = document.createElement("div");
-    
+    filterContainer.id = "enhancer-nimbuscloud";
+
     var pName = document.createElement("div");
     var inputSearch = document.createElement("input");
     inputSearch.id = "search";
