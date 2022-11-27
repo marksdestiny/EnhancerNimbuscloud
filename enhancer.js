@@ -130,12 +130,11 @@ function filter() {
         var id = "t" + time.replace(":", "");
         return document.querySelector("#" + id).checked;
     });
-    var searchText = document.querySelector("#search").value.trim().toLowerCase();
+    var searchTexts = document.querySelector("#search").value.replaceAll(/[ \t]+/g, " ").trim().toLowerCase().split(" ");
     
     var dayContainers = document.querySelectorAll("#checkin-plocation-content-1 .card-body>.list-group");
     for (const container of dayContainers) {
         var day = container.querySelector("div").innerText.trim().substring(0, 2).toUpperCase();
-        console.log(day);
         if(selectedDays.length > 0 && selectedDays.includes(day) == false) {
             container.hidden = true;
         } else {
@@ -145,9 +144,26 @@ function filter() {
     
     var courseContainers = document.querySelectorAll("#checkin-plocation-content-1 .pcheckin-course-item");
     for (const container of courseContainers) {
-        if(searchText.length > 0) {
+        if(searchTexts.length > 0) {            
             var courseTitle = container.querySelector("div.p-1>h5").innerText.trim().toLowerCase();
-            if(courseTitle.indexOf(searchText) < 0) {
+            var courseTitleParts = courseTitle.split(" ");
+            
+            var isMatch = true;
+            for (const needle of searchTexts) {
+                var needleFound = false;
+                for (const part of courseTitleParts) {
+                    if(part.indexOf(needle) >= 0) {
+                        needleFound = true;
+                        break;
+                    }
+                }
+
+                if (!needleFound) {
+                    isMatch = false;
+                    break;
+                }
+            }
+            if(!isMatch) {
                 container.classList.remove("d-flex");
                 container.hidden = true;
                 continue;
